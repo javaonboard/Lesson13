@@ -21,12 +21,12 @@ public class RegistrationController {
     this.passwordEncoder = passwordEncoder;
   }
   
-  @GetMapping(value="/register")
+  @GetMapping
   public String registerForm() {
     return "registration";
   }
   
-  @PostMapping(value = "/register")
+  @PostMapping
   public String processRegistration( RegistrationForm form) {
     userRepo.save(form.toUser(passwordEncoder));
     return "redirect:/login";

@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,9 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         // Setting Service to find User in the database.
-        // And Setting PassswordEncoder
+        // And Setting PasswordEncoder
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-
     }
 
 
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 
         // For ADMIN only.
-        http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin", "/h2-console/**").access("hasRole('ROLE_ADMIN')");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,
