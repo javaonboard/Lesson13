@@ -3,20 +3,12 @@
 
     <a th:href="@{/}">Home</a>
 
-    | &nbsp;
+    | &nbsp; <a th:href="@{/register}">Register</a>
 
-    <a th:href="@{/register}">Register</a>
+    | &nbsp; <a th:href="@{/user}">User Page</a>
 
-    | &nbsp;
+    | &nbsp; <a th:href="@{/admin}">Admin Page</a>
 
-    <a th:href="@{/user}">User Page</a>
-
-    | &nbsp;
-
-    <a th:href="@{/admin}">Admin Page</a>
-
-    | &nbsp;
-
-    <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+    | &nbsp; <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
 
 </div>

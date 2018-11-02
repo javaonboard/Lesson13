@@ -1,7 +1,6 @@
 package edu.dcccd.lesson13.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 

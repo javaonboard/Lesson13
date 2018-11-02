@@ -4,7 +4,6 @@ CREATE  TABLE users (
   id int(11) NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
   Encrypted_Password VARCHAR(60) NOT NULL ,
-  enabled int(1),
   PRIMARY KEY (id));
 
 CREATE TABLE roles (
