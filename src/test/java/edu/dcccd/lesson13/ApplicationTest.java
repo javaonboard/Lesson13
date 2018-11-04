@@ -1,7 +1,7 @@
 package edu.dcccd.lesson13;
 
-import edu.dcccd.lesson13.model.User;
 import edu.dcccd.lesson13.model.Role;
+import edu.dcccd.lesson13.model.User;
 import edu.dcccd.lesson13.repos.RoleRepository;
 import edu.dcccd.lesson13.repos.UserRepository;
 import org.junit.Test;
@@ -33,8 +33,6 @@ public class ApplicationTest {
     public void testCount() {
         long count = userRepo.count();
         assertEquals(2, count);
-        userRepo.findAll().forEach(System.out::println);
-        roleRepo.findAll().forEach(System.out::println);
     }
 
     @Test
@@ -45,7 +43,12 @@ public class ApplicationTest {
         assertEquals(1L, user.getId().longValue());
         Role role = new Role("ROLE_USER:", user.getId());
         role = roleRepo.save(role);
-        userRepo.findAll().forEach(System.out::println);
-        roleRepo.findAll().forEach(System.out::println);
+        printAll();
     }
+
+    private void printAll() {
+        userRepo.findAll().forEach(System.out :: println);
+        roleRepo.findAll().forEach(System.out :: println);
+    }
+
 }
