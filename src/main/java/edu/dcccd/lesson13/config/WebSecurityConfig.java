@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -44,10 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
-        http.authorizeRequests().antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/user")
+            .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 
         // For ADMIN only.
-        http.authorizeRequests().antMatchers("/admin", "/h2-console/**").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin", "/h2-console/**")
+            .access("hasRole('ROLE_ADMIN')");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,
@@ -58,20 +60,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and().formLogin()//
                 // Submit URL of login page.
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/login")//
-                .defaultSuccessUrl("/user")//
-                .failureUrl("/login?error=true")//
-                .usernameParameter("username")//
+                .loginPage("/login")
+                .defaultSuccessUrl("/user")
+                .failureUrl("/login?error=true")
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .and().csrf().ignoringAntMatchers("/h2-console/**")//don't apply CSRF protection to /h2-console
                 .and().headers().frameOptions().sameOrigin()       //allow use of frame to same origin urls
-                // Config for Logout Page
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccess");
+
+            // Config for Logout Page
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .deleteCookies("JSESSIONID","user","roles", "principal")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/home");
     }
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         return new InMemoryTokenRepositoryImpl();
     }
-
 }

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
@@ -41,12 +41,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String userInfo(Model model, Principal principal) {
+    public String userInfo( Model model, Principal principal, HttpSession session) {
         // After user login successfully.
         String userName = principal.getName();
         System.out.println("User Name: " + userName);
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        String user = WebUtils.toString(loginedUser);
+        User loggedInUser = (User) ((Authentication) principal).getPrincipal();
+        String user = WebUtils.toString(loggedInUser);
         model.addAttribute("user", user);
         return "user";
     }
